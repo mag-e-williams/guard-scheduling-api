@@ -9,5 +9,5 @@
 
 export type PTO  ={
     name: string;
-    date: Date;
+    date: string;
 }

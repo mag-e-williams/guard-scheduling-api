@@ -8,6 +8,7 @@
 import express, { Request, Response } from "express";
 import { Contract } from '../types/Contract';
 import { contracts } from '../sampleData/Contracts';
+import moment from "moment";
 
 export const contractsRouter = express.Router();
 
@@ -29,9 +30,9 @@ contractsRouter.get('/contracts/:name', (req: Request, res: Response) => {
 });
 
 // CREATE a new contract
-contractsRouter.post('/contractsRouter', (req: Request, res: Response) => {
+contractsRouter.post('/contracts', (req: Request, res: Response) => {
     const { name, daysOfWeek, requiresArmedGuard } = req.body;
-    const startDate = new Date();
+    const startDate = moment().format('MM-DD-YYY');
     const newContract: Contract = { name, daysOfWeek, requiresArmedGuard, startDate };
     contracts.push(newContract);
     res.status(201).json(newContract);

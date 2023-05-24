@@ -10,18 +10,9 @@
         - { Contract name: "Sally's Mall", Days of the week: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], Requires armed guard: False}
 */
 
-
-type DaysOfWeek =  'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
-
-export type Shift = {
-    length: '10h',
-    startTime: '8am',
-    endTime: '6pm',
-}
-
 export type Contract = {
     name: string,
-    daysOfWeek: DaysOfWeek[],
-    requiresArmedGuard?: boolean,
-    startDate: Date,
+    daysOfWeek: string[],
+    requiresArmedGuard: boolean,
+    startDate: string,
 }
