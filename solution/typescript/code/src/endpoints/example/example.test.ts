@@ -1,7 +1,7 @@
 import request from 'supertest';
 import {Express} from 'express-serve-static-core';
 
-import app  from '../server';
+import app  from '../../server';
 
 
 describe('GET /hello', () => {
