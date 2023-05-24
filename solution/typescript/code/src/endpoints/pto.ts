@@ -13,7 +13,7 @@ export const ptoRouter = express.Router();
 
 // GET all PTO
 ptoRouter.get("/pto", async (req: Request, res: Response) => {
-    return res.status(200).json(pto);
+    return res.status(200).json({data: pto});
 });
 
 // GET all PTO for :employee
@@ -22,7 +22,7 @@ ptoRouter.get("/pto/:employee", async (req: Request, res: Response) => {
   const employeePto = pto.filter((p) => p.name === employee);
 
   if (employeePto && employeePto.length) {
-    res.json(employeePto);
+    res.json({data: employeePto});
   } else {
     res.status(404).json({ message: `No PTO found for employee ${employee}` });
   }
@@ -48,5 +48,5 @@ ptoRouter.post("/pto", async (req: Request, res: Response) => {
   const ptoRequest: PTO = { name: guardName, date: dateStr };
   pto.push(ptoRequest);
 
-  res.json(ptoRequest);
+  res.json({data: ptoRequest});
 });

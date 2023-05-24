@@ -14,7 +14,7 @@ export const contractsRouter = express.Router();
 
 // Get all contracts
 contractsRouter.get("/contracts", async (req: Request, res: Response) => {
-    return res.status(200).json(contracts);
+    return res.status(200).json({data: contracts});
 });
 
 // GET a specific contract by name
@@ -23,7 +23,7 @@ contractsRouter.get('/contracts/:name', (req: Request, res: Response) => {
     const contract = contracts.find((c) => c.name === name);
   
     if (contract) {
-      res.json(contract);
+      res.json({data: contract});
     } else {
       res.status(404).json({ message: `No contracts found with name: ${name}` });
     }
@@ -35,7 +35,7 @@ contractsRouter.post('/contracts', (req: Request, res: Response) => {
     const startDate = moment().format('MM-DD-YYY');
     const newContract: Contract = { name, daysOfWeek, requiresArmedGuard, startDate };
     contracts.push(newContract);
-    res.status(201).json(newContract);
+    res.status(201).json({data: newContract});
 });
 
 // DELETE a contract
@@ -45,7 +45,7 @@ contractsRouter.delete('/contracts/:name', (req: Request, res: Response) => {
 
     if (contracatIndex !== -1) {
         const deletedContract = contracts.splice(contracatIndex, 1)[0];
-        res.json(deletedContract);
+        res.json({data: deletedContract});
     } else {
         res.status(404).json({ message: `Unable to delete contract. No contract with name ${name}` });
     }

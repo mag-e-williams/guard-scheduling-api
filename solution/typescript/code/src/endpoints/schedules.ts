@@ -68,7 +68,7 @@ type ScheduleShiftsProps = {
   endDate: string,
 };
 
-const ScheduleShifts = ({contracts, guards, pto, startDate, endDate}: ScheduleShiftsProps): Schedule => {
+export const ScheduleShifts = ({contracts, guards, pto, startDate, endDate}: ScheduleShiftsProps): Schedule => {
   const activeContracts =  contracts.filter(c =>  moment(c.startDate) <= moment(startDate))  // only generate schedules for active contracts (based on contract start date)
   
   const shifts = generateShifts(startDate, endDate, activeContracts)
@@ -121,15 +121,13 @@ const ScheduleShifts = ({contracts, guards, pto, startDate, endDate}: ScheduleSh
 
 // GET all schedules within timeframe
 schedulesRouter.get('/schedules/:startDate/:endDate', (req: Request, res: Response) => {
-  // const { startDate, endDate } = req.params;
-
   const startDate = moment(req.params.startDate).format('MM-DD-YYYY')
   const endDate = moment(req.params.endDate).format('MM-DD-YYYY')
 
   const scheduledShifts = ScheduleShifts({contracts, guards, pto, startDate, endDate})
 
   if (scheduledShifts && scheduledShifts.length ) {
-    res.json(scheduledShifts);
+    res.json({data: scheduledShifts});
   } else {
     res.status(404).json({ message: 'No Schedules Found' });
   }

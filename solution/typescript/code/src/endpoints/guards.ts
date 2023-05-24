@@ -12,7 +12,7 @@ export const guardsRouter = express.Router();
 
 // GET all guards
 guardsRouter.get("/guards", async (req: Request, res: Response) => {
-    return res.status(200).json(guards);
+    return res.status(200).json({data: guards});
 });
 
 // GET a specific guard by name
@@ -42,7 +42,7 @@ guardsRouter.delete('/guards/:name', (req: Request, res: Response) => {
 
     if (guardIndex !== -1) {
         const deletedGuard = guards.splice(guardIndex, 1)[0];
-        res.json(deletedGuard);
+        res.json({deletedGuard});
     } else {
         res.status(404).json({ message: `Unable to delete guard. No guard with name ${name}` });
     }
