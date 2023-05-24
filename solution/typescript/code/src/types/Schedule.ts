@@ -12,5 +12,8 @@
         - [(05-01-2022, "Sally's Mall", "Jackson"), (05-02-2022, "Sally's Mall", "Sarah"), (05-03-2022, "Sally's Mall", "Jackson")]
 */
 
-export type Schedule = [string, string, string][]; // Tuple representing (Date, ContractName, GuardName)
+
+export type ScheduleEntry = [Date, string, string]; // Tuple representing (Date, ContractName, GuardName)
+
+export type Schedule = ScheduleEntry[]; // Tuple representing (Date, ContractName, GuardName)
 

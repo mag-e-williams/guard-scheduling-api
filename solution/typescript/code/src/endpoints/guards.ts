@@ -1,20 +1,21 @@
+/*
+-   Implement a custom guard model with fields corresponding to the above definition. 
+    - Implement endpoints to get, create, and delete guards. ✅︎
+    - Choose the data type for each field that makes the most sense. ✅︎
+*/
+
 import express, { Request, Response } from "express";
 import { Guard } from '../types/Guard';
+import { guards } from '../sampleData/Guards';
 
 export const guardsRouter = express.Router();
 
-// Sample guards data
-const guards: Guard[] = [
-    { name: 'Jackson', hasArmedGuardCredential: false },
-    { name: 'Smith', hasArmedGuardCredential: true },
-];
-
-// Get all guards
+// GET all guards
 guardsRouter.get("/guards", async (req: Request, res: Response) => {
     return res.status(200).json(guards);
 });
 
-// Get a specific guard by name
+// GET a specific guard by name
 guardsRouter.get('/guards/:name', (req: Request, res: Response) => {
     const { name } = req.params;
     const guard = guards.find((g) => g.name === name);
@@ -22,11 +23,11 @@ guardsRouter.get('/guards/:name', (req: Request, res: Response) => {
     if (guard) {
       res.json(guard);
     } else {
-      res.status(404).json({ message: 'Guard not found' });
+      res.status(404).json({ message: `No guards found with name: ${name}` });
     }
 });
 
-// Create a new guard
+// CREATE a new guard
 guardsRouter.post('/guards', (req: Request, res: Response) => {
     const { name, hasArmedGuardCredential } = req.body;
     const newGuard: Guard = { name, hasArmedGuardCredential };
@@ -34,7 +35,7 @@ guardsRouter.post('/guards', (req: Request, res: Response) => {
     res.status(201).json(newGuard);
 });
 
-// Delete a guard
+// DELETE a guard
 guardsRouter.delete('/guards/:name', (req: Request, res: Response) => {
     const { name } = req.params;
     const guardIndex = guards.findIndex((g) => g.name === name);
@@ -43,6 +44,6 @@ guardsRouter.delete('/guards/:name', (req: Request, res: Response) => {
         const deletedGuard = guards.splice(guardIndex, 1)[0];
         res.json(deletedGuard);
     } else {
-        res.status(404).json({ message: 'Guard not found' });
+        res.status(404).json({ message: `Unable to delete guard. No guard with name ${name}` });
     }
 });

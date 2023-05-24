@@ -11,12 +11,17 @@
 */
 
 
-type DaysOfWeek = {
-    day: 'Mon' | 'Tues' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun'
+type DaysOfWeek =  'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+
+export type Shift = {
+    length: '10h',
+    startTime: '8am',
+    endTime: '6pm',
 }
 
 export type Contract = {
     name: string,
     daysOfWeek: DaysOfWeek[],
     requiresArmedGuard?: boolean,
+    startDate: Date,
 }

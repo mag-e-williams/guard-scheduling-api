@@ -10,11 +10,3 @@ export type Guard  ={
     name: string;
     hasArmedGuardCredential: boolean;
 }
-
-// export type GuardV2  ={
-//     id: string;
-//     fName: string;
-//     mName?: string;
-//     lName: string;
-//     hasArmedGuardCredential: boolean;
-// }
