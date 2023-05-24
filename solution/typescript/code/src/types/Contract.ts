@@ -19,5 +19,4 @@ export type Contract = {
     name: string,
     daysOfWeek: DaysOfWeek[],
     requiresArmedGuard?: boolean,
-
 }
