@@ -5,7 +5,7 @@
 */
 
 import express, { Request, Response } from "express";
-import { PTOSchedule as pto } from '../sampleData/PTOSchedule';
+import { ptoScheduleData} from '../sampleData/ptoScheduleData';
 import { PTO } from "@exmpl/types/PTO";
 import moment from "moment";
 
@@ -13,18 +13,18 @@ export const ptoRouter = express.Router();
 
 // GET all PTO
 ptoRouter.get("/pto", async (req: Request, res: Response) => {
-    return res.status(200).json({data: pto});
+    return res.status(200).json({data: ptoScheduleData});
 });
 
 // GET all PTO for :employee
 ptoRouter.get("/pto/:employee", async (req: Request, res: Response) => {
   const { employee } = req.params;
-  const employeePto = pto.filter((p) => p.name === employee);
+  const employeePto = ptoScheduleData.filter((p) => p.name === employee);
 
   if (employeePto && employeePto.length) {
     res.json({data: employeePto});
   } else {
-    res.status(404).json({ message: `No PTO found for employee ${employee}` });
+    res.status(404).json({ message: `No PTO found for employee: ${employee}` });
   }
 });
 
@@ -39,14 +39,14 @@ ptoRouter.post("/pto", async (req: Request, res: Response) => {
   }
 
   // Check if the guard already has a PTO request for the given date
-  const existingRequest = pto.find((request) => request.name === guardName && request.date === dateStr);
+  const existingRequest = ptoScheduleData.find((request) => request.name === guardName && request.date === dateStr);
   if (existingRequest) {
     return res.status(409).json({ error: 'PTO request already exists for the guard and date' });
   }
 
   // Create a new PTO request object and add it to the storage
   const ptoRequest: PTO = { name: guardName, date: dateStr };
-  pto.push(ptoRequest);
+  ptoScheduleData.push(ptoRequest);
 
   res.json({data: ptoRequest});
 });

@@ -1,6 +1,6 @@
 import { Contract } from '../types/Contract';
 
-export const contracts: Contract[] = [
+export const contractsData: Contract[] = [
     {
       name: "Sally's Mall",
       daysOfWeek: ["Mon", "Tue", "Wed", "Thu", "Fri"],
@@ -21,7 +21,7 @@ export const contracts: Contract[] = [
     },
     {
       name: "The Grove",
-      daysOfWeek: ["Mon", "Tue", "Wed", "Sat"],
+      daysOfWeek: ["Mon", "Sat"],
       requiresArmedGuard: true,
       startDate: '04-17-2023',
     },

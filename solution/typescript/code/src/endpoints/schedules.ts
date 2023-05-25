@@ -7,19 +7,20 @@
     - Document how this scheduling algorithm works. 
 */
 
-import express, { Request, Response } from "express";
-import moment from "moment";
-import { sortBy } from "../helpers/sortBy"
+import express, { Request, Response } from 'express';
+import moment from 'moment';
+import { sortBy } from '../helpers/sortBy'
 
-import type { Contract, } from "../types/Contract";
-import type { Guard } from "../types/Guard";
-import type { PTO } from "../types/PTO";
-import type { Shift } from "../types/Shift";
-import type { Schedule } from "../types/Schedule";
+import type { Contract, } from '../types/Contract';
+import type { Guard } from '../types/Guard';
+import type { PTO } from '../types/PTO';
+import type { Shift } from '../types/Shift';
+import type { Schedule } from '../types/Schedule';
 
-import { contracts } from '../sampleData/Contracts';
-import { guards } from '../sampleData/Guards';
-import { PTOSchedule as pto } from '../sampleData/PTOSchedule';
+import { contractsData } from '../sampleData/contractsData';
+import { guardsData } from '../sampleData/guardsData';
+import { ptoScheduleData } from '../sampleData/ptoScheduleData';
+
 
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -30,9 +31,11 @@ export const schedulesRouter = express.Router();
 ///////
 
 //// Generate List of Shifts (unscheduled)
-const generateShifts = (startDate: string, endDate: string, contracts: Contract[]): Shift[] => {
+export const generateShifts = (startDate: string, endDate: string, contracts: Contract[]): Shift[] => {
+  const activeContracts =  contracts.filter(c =>  moment(c.startDate) <= moment(startDate))  // only generate schedules for active contracts (based on contract start date)
+
   const shifts: Shift[] = [];
-  contracts.forEach(contract => {
+  activeContracts.forEach(contract => {
     const { name, daysOfWeek, requiresArmedGuard } = contract;
     let currentDateObj = moment(startDate);
     let endDateObj = moment(endDate);
@@ -55,31 +58,30 @@ const generateShifts = (startDate: string, endDate: string, contracts: Contract[
   return  sortBy(shifts, { field: "date", reverse: true });
 };
 
-function hasPTORequest(pto: PTO[], guardName: string, date: string): boolean {
-  return pto.some((p) =>  p.name === guardName && p.date === date);
+function filterGuardsByPTO(guards: Guard[], ptoScheduleData: PTO[], date: string): Guard[] {
+  return guards.filter(
+    (guard) => !ptoScheduleData.find((pto) => pto.name === guard.name && pto.date === date)
+  );
 }
 
 //// Schedule the list of Shifts generated in prev. function
 type ScheduleShiftsProps = {
-  contracts: Contract[];
-  guards: Guard[];
-  pto: PTO[];
+  contractsData: Contract[];
+  guardsData: Guard[];
+  ptoScheduleData: PTO[];
   startDate: string,
   endDate: string,
 };
 
-export const ScheduleShifts = ({contracts, guards, pto, startDate, endDate}: ScheduleShiftsProps): Schedule => {
-  const activeContracts =  contracts.filter(c =>  moment(c.startDate) <= moment(startDate))  // only generate schedules for active contracts (based on contract start date)
-  
-  const shifts = generateShifts(startDate, endDate, activeContracts)
+export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, startDate, endDate}: ScheduleShiftsProps): Schedule => {
+  const shifts = generateShifts(startDate, endDate, contractsData)
   const assignedGuards: { [date: string]: Guard[] } = {};
   const scheduledShifts: any[] = [];
 
   shifts.forEach((shift) => {
     const shiftDate = shift.date;
 
-    // filter guards who are on PTO for shift date 
-    const availableGuards = guards.filter((guard) => !hasPTORequest(pto, guard.name, shiftDate));
+    const availableGuards = filterGuardsByPTO(guardsData, ptoScheduleData, shiftDate);
 
     // filter guards who are already scheduled for shift date 
     const guardsWithoutShiftOnSameDate = availableGuards.filter((guard) => {
@@ -124,7 +126,7 @@ schedulesRouter.get('/schedules/:startDate/:endDate', (req: Request, res: Respon
   const startDate = moment(req.params.startDate).format('MM-DD-YYYY')
   const endDate = moment(req.params.endDate).format('MM-DD-YYYY')
 
-  const scheduledShifts = ScheduleShifts({contracts, guards, pto, startDate, endDate})
+  const scheduledShifts = ScheduleShifts({contractsData, guardsData, ptoScheduleData, startDate, endDate})
 
   if (scheduledShifts && scheduledShifts.length ) {
     res.json({data: scheduledShifts});

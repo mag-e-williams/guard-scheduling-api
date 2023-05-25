@@ -6,22 +6,22 @@
 
 import express, { Request, Response } from "express";
 import { Guard } from '../types/Guard';
-import { guards } from '../sampleData/Guards';
+import { guardsData } from '../sampleData/guardsData';
 
 export const guardsRouter = express.Router();
 
 // GET all guards
 guardsRouter.get("/guards", async (req: Request, res: Response) => {
-    return res.status(200).json({data: guards});
+    return res.status(200).json({data: guardsData});
 });
 
 // GET a specific guard by name
 guardsRouter.get('/guards/:name', (req: Request, res: Response) => {
     const { name } = req.params;
-    const guard = guards.find((g) => g.name === name);
+    const guard = guardsData.find((g) => g.name === name);
   
     if (guard) {
-      res.json(guard);
+      res.json({data: guard});
     } else {
       res.status(404).json({ message: `No guards found with name: ${name}` });
     }
@@ -31,19 +31,19 @@ guardsRouter.get('/guards/:name', (req: Request, res: Response) => {
 guardsRouter.post('/guards', (req: Request, res: Response) => {
     const { name, hasArmedGuardCredential } = req.body;
     const newGuard: Guard = { name, hasArmedGuardCredential };
-    guards.push(newGuard);
-    res.status(201).json(newGuard);
+    guardsData.push(newGuard);
+    res.status(201).json({data: newGuard});
 });
 
 // DELETE a guard
 guardsRouter.delete('/guards/:name', (req: Request, res: Response) => {
     const { name } = req.params;
-    const guardIndex = guards.findIndex((g) => g.name === name);
+    const guardIndex = guardsData.findIndex((g) => g.name === name);
 
     if (guardIndex !== -1) {
-        const deletedGuard = guards.splice(guardIndex, 1)[0];
-        res.json({deletedGuard});
+        const deletedGuard = guardsData.splice(guardIndex, 1)[0];
+        res.json({data: deletedGuard});
     } else {
-        res.status(404).json({ message: `Unable to delete guard. No guard with name ${name}` });
+        res.status(404).json({ message: `No guards found with name: ${name}` });
     }
 });
