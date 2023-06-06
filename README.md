@@ -1,6 +1,8 @@
 ### Objective
 
-One of the first modules we are going to build at Belfry is scheduling. Owners of security guard firms spend a significant amount of time ensuring all of their shifts are filled each week, and a dropped shift can mean the end of a valuable contract. Automating part of this process would be a major value add as part of our software!
+`This is a Practice Coding Assignment for API Design + Implementation`
+
+Owners of security guard firms spend a significant amount of time ensuring all of their shifts are filled each week, and a dropped shift can mean the end of a valuable contract. Automating part of this process would be a major value add as part of our software!
 
 The deliverable of this assignment is to implement a scheduling REST API using the language and framework of your choice ( flask may be the easiest setup for something this simple, but up to you to go with what you're most familiar with).
 
