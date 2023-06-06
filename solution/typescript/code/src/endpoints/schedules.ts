@@ -11,28 +11,31 @@ import express, { Request, Response } from 'express';
 import moment from 'moment';
 import { sortBy } from '../helpers/sortBy'
 
+// types
 import type { Contract, } from '../types/Contract';
 import type { Guard } from '../types/Guard';
 import type { PTO } from '../types/PTO';
 import type { Shift } from '../types/Shift';
 import type { Schedule } from '../types/Schedule';
 
+// sample data
 import { contractsData } from '../sampleData/contractsData';
 import { guardsData } from '../sampleData/guardsData';
 import { ptoScheduleData } from '../sampleData/ptoScheduleData';
 
-
-const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+// constants
+const DAYS_OF_WEEK: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const SHIFT_HOURS: number = 8;
 const OVERTIME_HOURS: number = 40;
 
-export const schedulesRouter = express.Router();
 
 ///////
 // BEGINNING OF SCHEDULING LOGIC
 ///////
 
-//// Generate List of Shifts (unscheduled)
+export const schedulesRouter = express.Router();
+
+//// Generate List of all Contract Shifts (unscheduled)
 export const generateShifts = (startDate: string, endDate: string, contracts: Contract[]): Shift[] => {
   const activeContracts =  contracts.filter(c =>  moment(c.startDate) <= moment(startDate))  // only generate schedules for active contracts (based on contract start date)
 
