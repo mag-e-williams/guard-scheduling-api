@@ -23,6 +23,8 @@ import { ptoScheduleData } from '../sampleData/ptoScheduleData';
 
 
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const SHIFT_HOURS: number = 8;
+const OVERTIME_HOURS: number = 40;
 
 export const schedulesRouter = express.Router();
 
@@ -77,7 +79,6 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
   const shifts = generateShifts(startDate, endDate, contractsData)
   const assignedGuards: { [date: string]: Guard[] } = {};
   const scheduledShifts: any[] = [];
-  const shiftHours: number = 8;
 
   shifts.forEach((shift) => {
     const shiftDate = shift.date;
@@ -99,6 +100,7 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
       }
     );
 
+    // get all guards scheduled for the week of the current shift
     let assignedGuardsThatWeek: Guard[] = [];
     guardsWithProperCredentials.forEach((guard) => {
         const weekStart = moment(shiftDate).startOf('week');
@@ -112,19 +114,21 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
       }
     );
 
+    // create map of the total hours for each guard scheduled for the week of the current shift
     let assignedGuardHoursThatWeek: { [guardName: string]: number } = {};
     assignedGuardsThatWeek.forEach((guard) => {
       const guardName = guard.name
       if (assignedGuardHoursThatWeek.hasOwnProperty(guardName)) {
-        assignedGuardHoursThatWeek[guardName] = assignedGuardHoursThatWeek[guardName] + shiftHours
+        assignedGuardHoursThatWeek[guardName] = assignedGuardHoursThatWeek[guardName] + SHIFT_HOURS
       } else {
-        assignedGuardHoursThatWeek[guardName] = shiftHours
+        assignedGuardHoursThatWeek[guardName] = SHIFT_HOURS
       }
     });
 
+    // filter guards based on which guards would not trigger overtime restrictions
     const filteredGuards = guardsWithProperCredentials.filter((guard) => {
       if (!assignedGuardHoursThatWeek.hasOwnProperty(guard.name)) return true
-      return (assignedGuardHoursThatWeek[guard.name] + shiftHours <= 40)
+      return (assignedGuardHoursThatWeek[guard.name] + SHIFT_HOURS <= OVERTIME_HOURS)
     })
 
     if (filteredGuards && filteredGuards.length) {
@@ -146,6 +150,7 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
 
   return scheduledShifts
 }
+
 
 ///////
 // BEGINNING OF REST API REQUESTS
