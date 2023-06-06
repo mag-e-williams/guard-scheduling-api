@@ -77,6 +77,7 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
   const shifts = generateShifts(startDate, endDate, contractsData)
   const assignedGuards: { [date: string]: Guard[] } = {};
   const scheduledShifts: any[] = [];
+  const shiftHours: number = 8;
 
   shifts.forEach((shift) => {
     const shiftDate = shift.date;
@@ -92,13 +93,42 @@ export const ScheduleShifts = ({contractsData, guardsData, ptoScheduleData, star
     );
 
     // filter guards based on required armed credential
-    const filteredGuards = guardsWithoutShiftOnSameDate.filter(
-      (guard) => guard.hasArmedGuardCredential === shift.requiresArmedGuard
+    const guardsWithProperCredentials = guardsWithoutShiftOnSameDate.filter((guard) => {
+        if (!shift.requiresArmedGuard) return true;
+        else return guard.hasArmedGuardCredential;
+      }
     );
+
+    let assignedGuardsThatWeek: Guard[] = [];
+    guardsWithProperCredentials.forEach((guard) => {
+        const weekStart = moment(shiftDate).startOf('week');
+        const weekEnd = moment(shiftDate).endOf('week');
+        for (let current = moment(weekStart, 'MM-DD-YYYY'); current <= moment(weekEnd, 'MM-DD-YYYY'); current.add(1, 'day')) {
+          const formattedDate = current.format('MM-DD-YYYY');
+          if (assignedGuards[formattedDate]) {
+            assignedGuardsThatWeek = assignedGuardsThatWeek.concat(assignedGuards[formattedDate]);
+          }
+        }      
+      }
+    );
+
+    let assignedGuardHoursThatWeek: { [guardName: string]: number } = {};
+    assignedGuardsThatWeek.forEach((guard) => {
+      const guardName = guard.name
+      if (assignedGuardHoursThatWeek.hasOwnProperty(guardName)) {
+        assignedGuardHoursThatWeek[guardName] = assignedGuardHoursThatWeek[guardName] + shiftHours
+      } else {
+        assignedGuardHoursThatWeek[guardName] = shiftHours
+      }
+    });
+
+    const filteredGuards = guardsWithProperCredentials.filter((guard) => {
+      if (!assignedGuardHoursThatWeek.hasOwnProperty(guard.name)) return true
+      return (assignedGuardHoursThatWeek[guard.name] + shiftHours <= 40)
+    })
 
     if (filteredGuards && filteredGuards.length) {
       // get first guard and add it to the scheduledShifts list
-      // TODO: room for improvement on which guard is scheduled and why
       const guard = filteredGuards[0]
 
       // add guard to schedule dict to avoid redundant scheduling

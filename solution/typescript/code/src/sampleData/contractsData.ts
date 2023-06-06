@@ -10,7 +10,7 @@ export const contractsData: Contract[] = [
     {
       name: "WTC",
       daysOfWeek: ["Mon", "Wed", "Fri", "Sun"],
-      requiresArmedGuard: true,
+      requiresArmedGuard: false,
       startDate: '03-22-2023',
     },
     {
@@ -22,7 +22,7 @@ export const contractsData: Contract[] = [
     {
       name: "The Grove",
       daysOfWeek: ["Mon", "Sat"],
-      requiresArmedGuard: true,
+      requiresArmedGuard: false,
       startDate: '04-17-2023',
     },
 ];

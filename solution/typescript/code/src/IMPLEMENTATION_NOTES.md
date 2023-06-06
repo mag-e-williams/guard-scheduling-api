@@ -5,14 +5,14 @@
 - types located in `/src/types/:type`
 - for simplicity sake, all dates are stored as strings in `MM-DD-YYYY` format
 
-#### Guard `/src/types/Guard`
+### Guard `/src/types/Guard`
 
 | field                   | dataType | notes                        |
 | ----------------------- | -------- | ---------------------------- |
 | name                    | string   | name of the guard (PK)       |
 | hasArmedGuardCredential | boolean  | licensed to carry a firearm? |
 
-#### Contract `/src/types/Contract`
+### Contract `/src/types/Contract`Wednesday, 5/31
 
 | field              | dataType | notes                                                                                                             |
 | ------------------ | -------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -21,14 +21,14 @@
 | requiresArmedGuard | boolean  |
 | startDate          | string   | `MM-DD-YYYY` probably not necessary, but used to make sure shifts are only generated for when the contract active |
 
-#### PTO `/src/types/PTO`
+### PTO `/src/types/PTO`
 
 | field | dataType | notes             |
 | ----- | -------- | ----------------- |
 | name  | string   | name of the guard |
 | date  | string   | `MM-DD-YYYY`      |
 
-#### Schedule `/src/types/Schedule`
+### Schedule `/src/types/Schedule`
 
 | field                                        | dataType                           | notes                                                                         |
 | -------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------- |
@@ -59,3 +59,13 @@ steps:
    - finally, filter `guardsWithoutShiftOnSameDate` to remove any guard that does not have the required credential for the shift.
      assign the first (index[0]) guard to the shift if there is one available. assign an error instead of a guard if no guard is available.
 3. return formatted list of assigned shifts as a schedule list
+
+## Example Curls:
+
+Guard:
+
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Roger", "hasArmedGuardCredential": "false"}' http://localhost:3000/guards
+
+curl -X DELETE -H "Content-Type: application/json" http://localhost:3000/guards/Roger
+
+curl -X GET -H "Content-Type: application/json" http://localhost:3000/schedules/2023-05-28/2023-05-30
