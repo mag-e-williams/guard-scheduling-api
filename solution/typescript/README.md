@@ -25,7 +25,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 ## Design Decisions: Data Types
 
-- types located in [/src/types/:type](./code/src/types/:type)
+- types located in [/src/types/:type](./code/src/types/)
 - for simplicity sake, all dates are stored as strings in `MM-DD-YYYY` format
 
 ### Guard [/src/types/Guard](./code/src/types/Guard)
