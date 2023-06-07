@@ -1,4 +1,4 @@
-# Starting the Guard scheduling Application
+## Starting the Guard Scheduling Application
 
 Starting code for running a server using node, express and typescript. Jest and supertest for testing.
 
@@ -21,7 +21,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 1. Run `npm run test`
 
-# Documentation for Guard Scheduling Coding Implementation
+# Documentation
 
 ## Design Decisions: Data Types
 
