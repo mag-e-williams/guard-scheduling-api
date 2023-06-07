@@ -57,7 +57,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 | -------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------- |
 | [guardName, contractName, dayOfWeek, date][] | [string, string, string, string][] | guardname will be `No Guards Available` if the algo is unable to schedule one |
 
-#### Shift [/src/types/Shift](./code/src/types/Shift.ts)
+### Shift [/src/types/Shift](./code/src/types/Shift.ts)
 
 | field              | dataType | notes                               |
 | ------------------ | -------- | ----------------------------------- |
