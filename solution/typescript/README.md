@@ -12,7 +12,7 @@ If you don't have these, please follow this guide: https://docs.npmjs.com/downlo
 
 These are written for someone running on unix/macOS, but you can reference the docs in the URL above for the windows commands.
 
-1. cd to the `solution/typescript/code` directory.
+1. navigate to the `solution/typescript/code` directory.
 2. Run `npm i` to install the dependancies.
 3. Run `npm run dev` to start the dev server. (this is all you need for the purpose of this assignment)
 4. Navagate to http://127.0.0.1:5000/hello in your browser, and ensure you see "Hello World" displayed. If so you're good to go! If not please review these steps and send an email to me at alex@belfrysoftware.com to help!
@@ -25,7 +25,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 ## Design Decisions: Data Types
 
-- types located in `/src/types/:type`
+- types located in `[/src/types/:type](./code/src/types/:type)`
 - for simplicity sake, all dates are stored as strings in `MM-DD-YYYY` format
 
 ### Guard `/src/types/Guard`
@@ -68,7 +68,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 ## Scheduling Logic
 
-Majority of logic is located in `ScheduleShifts()` within [/src/endpoints/schedules](./src/endpoints/schedules) which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
+Majority of logic is located in `ScheduleShifts()` within [/src/endpoints/schedules](./code/src/endpoints/schedules) which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
 
 steps:
 
