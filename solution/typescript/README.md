@@ -28,14 +28,14 @@ These are written for someone running on unix/macOS, but you can reference the d
 - types located in [/src/types/:type](./code/src/types/)
 - for simplicity sake, all dates are stored as strings in `MM-DD-YYYY` format
 
-### Guard [/src/types/Guard](./code/src/types/Guard)
+### Guard [/src/types/Guard](./code/src/types/Guard.ts)
 
 | field                   | dataType | notes                        |
 | ----------------------- | -------- | ---------------------------- |
 | name                    | string   | name of the guard (PK)       |
 | hasArmedGuardCredential | boolean  | licensed to carry a firearm? |
 
-### Contract [/src/types/Contract](./code/src/types/Contract)
+### Contract [/src/types/Contract](./code/src/types/Contract.ts)
 
 | field              | dataType | notes                                                                                                             |
 | ------------------ | -------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -44,20 +44,20 @@ These are written for someone running on unix/macOS, but you can reference the d
 | requiresArmedGuard | boolean  |
 | startDate          | string   | `MM-DD-YYYY` probably not necessary, but used to make sure shifts are only generated for when the contract active |
 
-### PTO [/src/types/PTO](./code/src/types/PTO)
+### PTO [/src/types/PTO](./code/src/types/PTO.ts)
 
 | field | dataType | notes             |
 | ----- | -------- | ----------------- |
 | name  | string   | name of the guard |
 | date  | string   | `MM-DD-YYYY`      |
 
-### Schedule [/src/types/Schedule](./code/src/types/Schedule)
+### Schedule [/src/types/Schedule](./code/src/types/Schedule.ts)
 
 | field                                        | dataType                           | notes                                                                         |
 | -------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------- |
 | [guardName, contractName, dayOfWeek, date][] | [string, string, string, string][] | guardname will be `No Guards Available` if the algo is unable to schedule one |
 
-#### Shift [/src/types/Shift](./code/src/types/Shift)
+#### Shift [/src/types/Shift](./code/src/types/Shift.ts)
 
 | field              | dataType | notes                               |
 | ------------------ | -------- | ----------------------------------- |
@@ -68,7 +68,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 ## Scheduling Logic
 
-Majority of logic is located in `ScheduleShifts()` within [/src/endpoints/schedules](./code/src/endpoints/schedules) which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
+Majority of logic is located in `ScheduleShifts()` within [/src/endpoints/schedules](./code/src/endpoints/schedules.ts) which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
 
 steps:
 
