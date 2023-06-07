@@ -1,6 +1,6 @@
 ### Objective
 
-`This is a Practice Coding Assignment for API Design + Implementation. My implementation notes can be found in 'solution/typescript/README.md'`
+***This is a Practice Coding Assignment for API Design + Implementation. My implementation notes can be found in `solution/typescript/README.md`***
 
 Owners of security guard firms spend a significant amount of time ensuring all of their shifts are filled each week, and a dropped shift can mean the end of a valuable contract. Automating part of this process would be a major value add as part of our software!
 
