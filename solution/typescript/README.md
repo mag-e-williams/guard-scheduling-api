@@ -68,7 +68,7 @@ These are written for someone running on unix/macOS, but you can reference the d
 
 ## Scheduling Logic
 
-Majority of logic is located in `ScheduleShifts()` within `/src/endpoints/schedules` which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
+Majority of logic is located in `ScheduleShifts()` within [/src/endpoints/schedules](./src/endpoints/schedules) which takes in the following as input: - contractsData: Contract[]; - guardsData: Guard[]; - ptoScheduleData: PTO[]; - startDate: string, - endDate: string,
 
 steps:
 
